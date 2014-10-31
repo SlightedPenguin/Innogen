@@ -13,23 +13,26 @@
 #
 prefix := /usr/local
 
-# The recommended compiler flags for the Raspberry Pi
-CCFLAGS=-Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
-#CCFLAGS=
 
-# define all programs
-PROGRAMS = sensornet
-#rx-test helloworld_rx helloworld_tx
-SOURCES = ${PROGRAMS:=.cpp}
-#SOURCES = sensornet.cpp
+# The compiler and recommended compiler flags for the Raspberry Pi
+CC=g++
+CCFLAGS=-g -Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
+#CCFLAGS=-mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
 
-all: ${PROGRAMS}
+all: nodeserver
 
-${PROGRAMS}: ${SOURCES}
-	g++ ${CCFLAGS} -Wall -I../ -lrf24-bcm -lrf24network $@.cpp -o $@
+nodeserver: sensornet.o config.o
+	$(CC) -lrf24network -lrf24-bcm -lqpid-proton sensornet.o config.o -o nodeserver
+	chmod +x nodeserver
+
+sensornet.o: sensornet.cpp
+	$(CC) ${CCFLAGS} -Wall -c $^
+
+config.o: config.cpp
+	$(CC) ${CCFLAGS} -Wall -c $^
 
 clean:
-	rm -rf $(PROGRAMS)
+	rm -rf *.o nodeserver
 
 #install: all
 #	test -d $(prefix) || mkdir $(prefix)

@@ -1,0 +1,3 @@
+# Ignore built files
+NodeServer/bin/*
+NodeSerer/queues.conf

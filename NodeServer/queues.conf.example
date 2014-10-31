@@ -1,0 +1,9 @@
+# Define the Azure Service Bus namespace
+namespace=<your namespace>.servicebus.windows.net
+
+# Define the name of the queue where sensor data is written for processing
+sensor_data_queue=<your queue>
+
+# Define the policy and secret for the sensor data queue
+sensor_data_policy=<your policy>
+sensor_data_secret=<your secret>
