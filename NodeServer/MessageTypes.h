@@ -22,6 +22,7 @@ typedef enum
 
 typedef enum
 {
+	MsgTypeUndefined = 0x00,
 	MsgTypeTemp = 0x01,
 	MsgTypeTempReq = 0x02,
 	MsgTypeTempResp = 0x03,
